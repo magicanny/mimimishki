@@ -2,6 +2,8 @@ import os
 from dotenv import dotenv_values
 from pathlib import Path
 
+import apps.blog.apps
+
 config = dotenv_values()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'apps.blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
