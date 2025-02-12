@@ -1,0 +1,29 @@
+{% extends "blog/layout_blog.html" %}
+
+<!-- Page header with title -->
+{% block title %}{{ post.title }}{% endblock %}
+
+<!-- Post title-->
+{% block header_blog %}
+<h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+{% endblock header_blog %}
+
+<!-- Post content-->
+{% block content_blog %}
+<article>
+
+    <!-- Image figure-->
+    <figure class="mb-4">
+        {% include "blog/includes/carousel.html" %}
+    </figure>
+
+    <!-- Post text-->
+    <section class="mb-5">
+        <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+        <p class="fs-5 mb-4">{{ post.body|linebreaks }}</p>
+
+        <!-- Post meta content-->
+        <div class="text-muted fst-italic mb-2">Published {{ post.published_date }} by {{ post.author }}</div>
+    </section>
+</article>
+{% endblock %}

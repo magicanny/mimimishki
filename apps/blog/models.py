@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models import UniqueConstraint, Q
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -41,6 +42,11 @@ class Image(models.Model):
         return self.title or f'Изображение к посту "{self.post.title}"'
 
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
+
 class Post(models.Model):
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
@@ -56,10 +62,17 @@ class Post(models.Model):
     published_date = models.DateTimeField(default=timezone.now, verbose_name='Дата публикации')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
+    objects = models.Manager()
+    published = PublishedManager()
+
     class Meta:
         ordering = ('-created_date',)
+        get_latest_by = ('published_date',)
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[self.slug])

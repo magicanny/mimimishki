@@ -1,0 +1,65 @@
+{% extends "blog/layout_blog.html" %}
+
+{% block title %}Blog about bears{% endblock %}
+
+<!-- Page header with logo and tagline-->
+{% block header_blog %}
+<h1 class="fw-bolder">Welcome to Blog about bears!</h1>
+<p class="lead mb-0">the bears are very cute and can be called mimimishki</p>
+{% endblock header_blog %}
+
+<!-- Blog entries-->
+{% block content_blog %}
+
+<!-- Featured blog post-->
+{% with posts.latest as new_post %}
+<div class="card mb-4">
+
+    <!-- Preview image -->
+    {% for im in new_post.post_images.all %}
+    {% if im.is_main %}
+    <a href="{{ new_post.get_absolute_url }}"><img src="{{ im.img.url }}" class="card-img-top" alt="{{ new_post.title }}"/></a>
+    {% endif %}
+    {% endfor %}
+
+    <!-- Post text-->
+    <div class="card-body">
+        <div class="small text-muted">{{ new_post.published_date }}</div>
+        <h2 class="card-title">{{new_post.title}}</h2>
+        <p class="card-text">{{ new_post.body|truncatewords:30|linebreaks }}</p>
+        <a class="btn btn-primary" href="{{ new_post.get_absolute_url }}">Читать полностью →</a>
+    </div>
+</div>
+{% endwith %}
+
+<!-- Nested row for non-featured blog posts-->
+<div class="row">
+    {% for post in posts %}
+    {% if post != posts.latest %}
+    <div class="col-lg-6">
+        <div class="card mb-4">
+
+            <!-- Preview image -->
+            {% for im in post.post_images.all %}
+            {% if im.is_main %}
+            <a href="{{ post.get_absolute_url }}"><img src="{{ im.img.url }}" class="card-img-top" alt="{{ post.title }}"/></a>
+            {% endif %}
+            {% endfor %}
+
+            <!-- Post text-->
+            <div class="card-body">
+                <div class="small text-muted">{{ post.published_date }}</div>
+                <h2 class="card-title h4">{{post.title}}</h2>
+                <p class="card-text">{{ post.body|truncatewords:30|linebreaks }}</p>
+                <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Читать полностью →</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Pagination-->
+{% include 'blog/post/pagination.html' %}
+
+{% endblock %}

@@ -4,5 +4,6 @@ pillow==11.1.0
 psycopg==3.2.3
 psycopg-binary==3.2.3
 python-dotenv==1.0.1
+sorl-thumbnail==12.11.0
 sqlparse==0.5.3
 typing_extensions==4.12.2
