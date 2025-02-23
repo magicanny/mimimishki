@@ -57,10 +57,12 @@ class Post(models.Model):
     title = models.CharField(max_length=100, verbose_name='Заголовок')
     slug = models.SlugField(max_length=100, unique=True,
                             help_text='Значение генерируется автоматически на основе заголовка')
-    body = models.TextField(verbose_name='Содержание', db_index=True)
+    body = models.TextField(verbose_name='Содержание')
     status = models.IntegerField(choices=Status.choices, default=Status.DRAFT, verbose_name='Статус записи')
     published_date = models.DateTimeField(default=timezone.now, verbose_name='Дата публикации')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    category = models.ForeignKey('Category', on_delete=models.DO_NOTHING, related_name='posts',
+                                 verbose_name='Категория', blank=True, null=True)
 
     objects = models.Manager()
     published = PublishedManager()
@@ -75,4 +77,21 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[self.slug])
+        return reverse('blog:post_detail', kwargs={'slug': self.slug})
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Название категории')
+    slug = models.SlugField(max_length=150, verbose_name='URL категории',
+                            help_text='Значение генерируется автоматически на основе заголовка')
+    description = models.TextField(max_length=300, verbose_name='Описание категории', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def get_absolute_url(self):
+        return reverse('blog:post_category', kwargs={'slug': self.slug})
+
+    def __str__(self):
+        return self.title

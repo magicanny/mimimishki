@@ -1,0 +1,39 @@
+{% if is_paginated %}
+
+<nav aria-label="Pagination">
+    <hr class="my-0" />
+    <ul class="pagination justify-content-center my-4">
+
+        {% if page.has_previous and query %}
+        <li class="page-item"><a class="page-link" href="?query={{ request.GET.query }}&page=1">first</a></li>
+        <li class="page-item"><a class="page-link" href="?query={{ request.GET.query }}&page={{ page.previous_page_number }}">&laquo;</a></li>
+        {% elif page.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">first</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">&laquo;</a></li>
+        {% endif %}
+
+        {% for page_number in page.paginator.get_elided_page_range %}
+        {% if page_number == page.paginator.ELLIPSIS %}
+            {{ page_number }}
+        {% else %}
+            <li class="page-item">
+                {% if query %}
+                <a href="?query={{ request.GET.query }}&page={{ page_number }}" class="page-link">{{ page_number }}</a>
+                {% else %}
+                <a href="?page={{ page_number }}" class="page-link">{{ page_number }}</a>
+                {% endif %}
+            </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page.has_next and query %}
+        <li class="page-item"><a class="page-link" href="?query={{ request.GET.query }}&page={{ page.next_page_number }}">&raquo;</a></li>
+        <li class="page-item"><a class="page-link" href="?query={{ request.GET.query }}&page={{ page.paginator.num_pages }}">last</a></li>
+        {% elif page.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">&raquo;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">last</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endif %}

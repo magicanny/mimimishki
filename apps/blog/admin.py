@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.blog.models import Post, Image
+from apps.blog.models import Post, Image, Category
 
 
 class InlineImage(admin.TabularInline):
@@ -25,3 +25,10 @@ class PostAdmin(admin.ModelAdmin):
         if not change:
             obj.author = request.user
         super().save_model(request, obj, form, change)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    list_display_links = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
