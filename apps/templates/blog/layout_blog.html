@@ -14,7 +14,31 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8">
+
+            <!-- Search results-->
+            {% if query %}
+            <section class="mb-5">
+                <h2 class="fw-bolder mb-1">Результаты поиска по запросу &laquo;{{ query }}&raquo;</h2>
+            </section>
+            {% endif %}
+
+            {% if category %}
+            <section class="mb-5">
+                <h2 class="fw-bolder mb-1">Статьи категории &laquo;{{ category }}&raquo;</h2>
+            </section>
+            {% endif %}
+
+            <!-- Posts content-->
+            {% if post or posts %}
             {% block content_blog %} {% endblock %}
+
+            <!-- No matches found-->
+            {% else %}
+            <section class="mb-5">
+            <p><h5>Тут ничего нет, попробуйте другой запрос :)</h5></p>
+            <p><a class="btn btn-primary" href="{% url 'blog:post_list' %}">К списку постов</a></p>
+            </section>
+            {% endif %}
         </div>
 
         <!-- Side widgets-->

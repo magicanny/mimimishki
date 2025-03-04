@@ -1,0 +1,17 @@
+<div class="card mb-4">
+    <div class="card-header">Поиск по записям блога</div>
+    <div class="card-body">
+        <form action="{% url 'blog:post_search' %}" method="get">
+            <div class="input-group">
+                <input class="form-control"
+                       type="text"
+                       name="query"
+                       value="{{ query }}"
+                       placeholder="Введите слово для поиска"
+                       aria-label="search"
+                       aria-describedby="button-search" />
+                <button class="btn btn-primary" id="button-search" type="submit">Найти</button>
+            </div>
+        </form>
+    </div>
+</div>
