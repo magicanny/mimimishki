@@ -2,14 +2,14 @@
 FROM python:3.13-slim-bookworm
 
 # set work directory
-WORKDIR ./apps
+WORKDIR /mimimi
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # update system
-RUN apt update && apt-get install -y netcat
+RUN apt update && apt upgrade -y
 
 # install dependencies
 RUN pip install --upgrade pip
@@ -18,11 +18,11 @@ RUN pip install -r requirements.txt
 
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' ./apps/entrypoint.sh
-RUN chmod +x ./apps/entrypoint.sh
+RUN sed -i 's/\r$//g' /mimimi/entrypoint.sh
+RUN chmod +x /mimimi/entrypoint.sh
 
 # copy project
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["./apps/entrypoint.sh"]
+ENTRYPOINT ["/mimimi/entrypoint.sh"]
