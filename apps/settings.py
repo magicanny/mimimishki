@@ -19,7 +19,8 @@ SECRET_KEY = config.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+HOST = config.get('HOST')
+ALLOWED_HOSTS = [HOST]
 
 
 # Application definition
